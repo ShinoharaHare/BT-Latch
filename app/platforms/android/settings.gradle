@@ -1,0 +1,2 @@
+include ':app', ':JSBridge'
+rootProject.name='BT Latch'
