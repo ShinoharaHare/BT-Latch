@@ -10,6 +10,12 @@ void LatchController::update() {
     mLockedSwitch.update();
     mUnlockedSwitch.update();
 
+    // Serial.print("locked: ");
+    // Serial.println(mLockedSwitch.read());
+
+    // Serial.print("unlocked: ");
+    // Serial.println(mUnlockedSwitch.read());
+
     switch (mState) {
     case None:
         if (mLockedSwitch.read()) {
@@ -25,8 +31,7 @@ void LatchController::update() {
             writeMotor(Unlock);
             mUnlockFlag = false;
             mState = Unlocking;
-        }
-        if (mLockFlag) {
+        } else if (mLockFlag) {
             writeMotor(Lock);
             mLockFlag = false;
             mState = Locking;
@@ -58,6 +63,12 @@ void LatchController::update() {
             mState = Locked;
         }
         break;
+    }
+
+    if (mLockedSwitch.read()) {
+        mState = Locked;
+    } else if (mUnlockedSwitch.read()) {
+        mState = Unlocked;
     }
 }
 
